@@ -1,5 +1,10 @@
 extends layout
 
 block content
-	h1= title
-	p Welcome to #{title}
+	div#layout.pure-g
+		div.sidebar.pure-u-1.pure-u-md-1-4
+			div.header
+				h1.brand-title #{title}
+
+	div.content.pure-u-1.pure-u-md-3-4
+		h2 Welcome to #{title}
