@@ -30,7 +30,7 @@ app.use('/lib', express.static(path.join(__dirname, 'lib')));
 app.use(multer({
 	'dest': __dirname + '/tmp/',
 	'rename': function(fieldname, filename) {
-		return filename + Date.now();
+		return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
 	},
 	'onFileUploadStart': function(file) {
 		console.log(file.originalname + ' is starting ...' + file.size);
