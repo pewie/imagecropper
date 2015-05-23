@@ -4,9 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var multer = require('multer');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var upload = require('./routes/upload');
 
 var app = express();
 
@@ -21,10 +23,31 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/tmp', express.static(path.join(__dirname, 'tmp')));
 app.use('/lib', express.static(path.join(__dirname, 'lib')));
+
+// Configure multer
+app.post('/upload', multer({
+	'dest': __dirname + '/tmp/',
+	'rename': function(fieldname, filename) {
+		return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
+	},
+	'onFileUploadStart': function(file) {
+		console.log(file.originalname + ' is starting ...' + file.size);
+	},
+	'onFileUploadComplete': function(file, req, res) {
+		var splitpath = file.path.split('/');
+		file.newfilename = splitpath[splitpath.length-1];
+
+		console.log(file.originalname + ' uploaded to  ' + file.path);
+
+		res.send(file);
+	}
+}));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/upload', upload);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
