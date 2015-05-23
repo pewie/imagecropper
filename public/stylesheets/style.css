@@ -34,7 +34,7 @@ h3 {
 }
 
 .sidebar {
-	background: rgb(61, 79, 93);
+	background: rgb(58, 60, 66);
 	color: #fff;
 }
 
@@ -163,8 +163,7 @@ h3 {
 	}
 
 	.header {
-		margin: 80% 2em 0;
-		text-align: right;
+		margin: 5% 2em 0;
 	}
 
 	.sidebar {
