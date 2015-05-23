@@ -3,7 +3,7 @@ var router = express.Router();
 
 router.post('/', function(req, res, next) {
 
-	res.redirect('back');
+	// res.redirect('back');
 
 });
 

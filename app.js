@@ -23,11 +23,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'tmp')));
+app.use('/tmp', express.static(path.join(__dirname, 'tmp')));
 app.use('/lib', express.static(path.join(__dirname, 'lib')));
 
 // Configure multer
-app.use(multer({
+app.post('/upload', multer({
 	'dest': __dirname + '/tmp/',
 	'rename': function(fieldname, filename) {
 		return filename.replace(/\W+/g, '-').toLowerCase() + Date.now()
@@ -35,8 +35,13 @@ app.use(multer({
 	'onFileUploadStart': function(file) {
 		console.log(file.originalname + ' is starting ...' + file.size);
 	},
-	'onFileUploadComplete': function(file) {
-		console.log(file.fieldname + ' uploaded to  ' + file.path);
+	'onFileUploadComplete': function(file, req, res) {
+		var splitpath = file.path.split('/');
+		file.newfilename = splitpath[splitpath.length-1];
+
+		console.log(file.originalname + ' uploaded to  ' + file.path);
+
+		res.send(file);
 	}
 }));
 
