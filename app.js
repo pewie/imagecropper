@@ -9,6 +9,7 @@ var multer = require('multer');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var upload = require('./routes/upload');
+var process = require('./routes/process');
 
 var app = express();
 
@@ -48,6 +49,7 @@ app.post('/upload', multer({
 app.use('/', routes);
 app.use('/users', users);
 app.use('/upload', upload);
+app.use('/process', process);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
