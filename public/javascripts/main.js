@@ -14,12 +14,12 @@ $(document).ready(function() {
 
 			// Process the image using Ajax request to /process.
 			callback: function(cropdata) {
+
 				$.ajax({
 					url: '/process',
-					method: 'POST',
+					method: 'GET',
 					data: {
 						'filename': res.newfilename,
-						'path': res.path,
 						'x': cropdata.x,
 						'y': cropdata.y,
 						'scalewidth': cropdata.scale_width,
@@ -29,13 +29,18 @@ $(document).ready(function() {
 						'rotatedeg': cropdata.rotate_deg
 					}
 				})
-				.done(function(data) {
-					console.log('Procesing done.', data);
+				.success(function(res) {
+					// Image processing finished, download image.
+					if (res.filename != 'undefined') {
+						console.log('Downloading image');
+						window.location = '/download/' + res.filename;
+
+						return;
+					}
 				});
 			}
 		});
 		
 	});
-
 
 });

@@ -1,25 +1,35 @@
 var express = require('express');
 var router = express.Router();
+var url = require('url');
 var gm = require('gm').subClass({imageMagick: true});
 
-router.post('/', function(req, res, next) {
+router.get('/', function(req, res, next) {
 
-	var data = req.body;
+	var query = req.body;
 
-	// Process the image according to crop data.
-	gm(data.path)
-		.rotate('white', parseInt(data['rotatedeg']))
-		.resize(data['scalewidth'], data['scaleheight'])
-		.crop(data['cropwidth'], data['cropheight'], data['x'], data['y'])
-		.write(__dirname + '/../tmp/' + 'cropped-' + data.filename, function(err) {
+	var url_parts = url.parse(req.url, true);
+    var query = url_parts.query;
+    var path = __dirname + '/../tmp/' + query.filename;
+	var croppath = __dirname + '/../tmp/' + 'cropped-' + query.filename;
+
+    console.log(query);
+
+	// Process the image according to crop query.
+	gm(path)
+		.rotate('white', parseInt(query['rotatedeg']))
+		.resize(query['scalewidth'], query['scaleheight'])
+		.crop(query['cropwidth'], query['cropheight'], query['x'], query['y'])
+		.noProfile() // Strip EXIF data.
+		.write(croppath, function(err) {
 			if (err) { 
 				console.log('Process failed');
-				res.send('NOT OK');
+				res.send('An error occured while processing image');
 				return false;
 			}
-		});
 
-	res.send('OK');
+			console.log('/upload: Cropping done');
+			res.json({filename: 'cropped-' + query.filename});
+		});
 
 });
 
