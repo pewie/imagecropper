@@ -8,6 +8,8 @@ $(document).ready(function() {
 
 	dz.on('success', function(file, res) {
 
+		// $('#dropzone').slideUp(800, function(){
+
 		// Initialize imgcrppr with the uploaded file.
 		$('#imgcrppr').imgcrppr({
 			image_src: '/tmp/' + res.newfilename,
@@ -47,7 +49,20 @@ $(document).ready(function() {
 				});
 			}
 		});
-		
+
+	// $('#imgcrppr').hide().slideDown(1000);
+	$('#imgcrppr').animate({
+		    opacity: 1,
+		    width: '600px',
+		    height: '382px'
+		},
+		{
+			duration:1000,
+			complete: function() {
+				$('#ic-canvas').append('<div class="ic-success">Happy cropping! <i class="fa fa-smile-o"></i></div>');
+			}
+		});
+
 	});
 
 });
