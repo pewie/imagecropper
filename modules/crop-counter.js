@@ -5,7 +5,14 @@ var sqlite3 = require("sqlite3").verbose();
 
 exports.log = function(image, ip) {
 	var sqldb = path.join(__dirname, '../', 'db.sql');
+	var imgpath = path.join(__dirname, '../', 'tmp', 'cropped-' + image);
 	var exists = fs.existsSync(sqldb);
+	var alreadyCropped = fs.existsSync(imgpath);
+
+	if (alreadyCropped) {
+		console.log("Already cropped. Don't count.");
+		return;
+	}
 
 	if ( ! exists) {
 		console.log('Creating DB file');
