@@ -3,8 +3,9 @@ var path = require('path');
 var moment = require('moment');
 var sqlite3 = require("sqlite3").verbose();
 
+var sqldb = path.join(__dirname, '../', 'db.sql');
+
 exports.log = function(image, ip) {
-	var sqldb = path.join(__dirname, '../', 'db.sql');
 	var imgpath = path.join(__dirname, '../', 'tmp', 'cropped-' + image);
 	var exists = fs.existsSync(sqldb);
 	var alreadyCropped = fs.existsSync(imgpath);
@@ -29,4 +30,21 @@ exports.log = function(image, ip) {
 	console.log('Crop from ip ' + ip + ' logged in database');
 
 	db.close();
+};
+
+exports.getCrops = function(callback) {
+	var db = new sqlite3.Database(sqldb);
+
+	db.get('SELECT COUNT(id) AS crops FROM crop LIMIT 1', function(err, row) {
+		if (err) {
+			console.log('Could not load from crop');
+			callback(err);
+			db.close();
+
+			return;
+		}
+
+		callback(null, row.crops);
+		db.close();
+	});
 };
