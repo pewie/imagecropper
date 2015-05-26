@@ -11,6 +11,13 @@ $(document).ready(function() {
 		// Initialize imgcrppr with the uploaded file.
 		$('#imgcrppr').imgcrppr({
 			image_src: '/tmp/' + res.newfilename,
+			custom_controls: true,
+			controls: {
+				zoom: "<div id='ic-slider'></div>",
+				rotate: "<button type='button' id='ic-btn-rotate' class='pure-button'><i class='fa fa-repeat'></i> Rotate</button>",
+				reset: "<button type='button' id='ic-btn-reset' class='pure-button'><i class='fa fa-times'></i> Reset</button>",
+				crop: "<button type='button' id='ic-btn-crop' class='pure-button'><i class='fa fa-check'></i> Crop and Save</button>"
+			},
 
 			// Process the image using Ajax request to /process.
 			callback: function(cropdata) {

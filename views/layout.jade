@@ -2,6 +2,17 @@ doctype html
 html
 	head
 		title= title
+
+		script(src='http://code.jquery.com/jquery-1.11.3.min.js')
+		script(src='http://code.jquery.com/ui/1.11.4/jquery-ui.min.js')
+		link(rel='stylesheet', href='http://code.jquery.com/ui/1.11.4/themes/blitzer/jquery-ui.css')
+		link(rel='stylesheet', href='/lib/imgcrppr/imgcrppr.css')
+		link(rel='stylesheet', href='/stylesheets/dropzone.css')
+		link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
+		script(src='/lib/imgcrppr/imgcrppr.js')
+		script(src='/javascripts/dropzone.js')
+		script(src='/javascripts/main.js')
+
 		link(rel='stylesheet', href='http://yui.yahooapis.com/pure/0.6.0/pure-min.css')
 
 		<!--[if lte IE 8]>
@@ -19,16 +30,6 @@ html
 		<!--[if lt IE 9]>
 		script(src='http://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js')
 		<![endif]-->
-
-		script(src='http://code.jquery.com/jquery-1.11.3.min.js')
-		script(src='http://code.jquery.com/ui/1.11.4/jquery-ui.min.js')
-		link(rel='stylesheet', href='http://code.jquery.com/ui/1.11.4/themes/blitzer/jquery-ui.css')
-		link(rel='stylesheet', href='/lib/imgcrppr/imgcrppr.css')
-		link(rel='stylesheet', href='/stylesheets/dropzone.css')
-		link(rel='stylesheet', href='//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
-		script(src='/lib/imgcrppr/imgcrppr.js')
-		script(src='/javascripts/dropzone.js')
-		script(src='/javascripts/main.js')
 
 	body
 		block content

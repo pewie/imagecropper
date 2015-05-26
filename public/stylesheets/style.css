@@ -157,6 +157,14 @@ h3 {
 	background: none;
 }
 
+#ic-controls {
+	width: 380px;
+}
+
+#ic-controls button {
+	padding: 0.4em 1em;
+}
+
 @media (min-width: 48em) {
 	.content {
 		padding: 2em 3em 0;
