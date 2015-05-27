@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 	dz.on('success', function(file, res) {
 
-		// $('#dropzone').slideUp(800, function(){
+		$('#no-image').hide();
 
 		// Initialize imgcrppr with the uploaded file.
 		$('#imgcrppr').imgcrppr({

@@ -3,21 +3,20 @@ extends layout
 block content
 	div#layout.pure-g
 		div.sidebar.pure-u-1.pure-u-md-1-4
-			div.header
-				//- h1.brand-title #{title}
-			//- form.dropzone#dropzone(name="upload", action="/upload", method="post" enctype="multipart/form-data")
-			div#dropzone.dropzone
+			#dropzone-container
+				div#dropzone-title <i class="fa fa-upload"></i> Dropzone
+				div#dropzone.dropzone
 
 	div.content.pure-u-1.pure-u-md-3-4
 		div.pure-g
 			div.pure-u-1.pure-u-md-3-4
-				h1 #{title}
+				h1.title <i class="fa fa-crop"></i> #{title}
 
 			div.pure-u-1.pure-u-md-1-4
 				div#crops-counter
 					span#num-crops #{crops}
 					|  images cropped
-		div.pure-g
+		div.pure-g.cropzone
 			div.pure-u-1
 				div#imgcrppr
 				div#no-image
