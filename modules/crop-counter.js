@@ -12,7 +12,7 @@ exports.log = function(image, ip) {
 
 	if (alreadyCropped) {
 		console.log("Already cropped. Don't count.");
-		return;
+		return alreadyCropped;
 	}
 
 	if ( ! exists) {
@@ -30,6 +30,10 @@ exports.log = function(image, ip) {
 	console.log('Crop from ip ' + ip + ' logged in database');
 
 	db.close();
+
+	console.log('alreadyCropped in cropcountrer: ' + alreadyCropped);
+
+	return alreadyCropped;
 };
 
 exports.getCrops = function(callback) {
@@ -44,7 +48,8 @@ exports.getCrops = function(callback) {
 			return;
 		}
 
-		callback(null, row.crops);
+		console.log('crops in module: ' + row.crops);
+		callback(null, {'crops': row.crops});
 		db.close();
 	});
 };
