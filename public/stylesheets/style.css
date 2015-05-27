@@ -15,6 +15,10 @@ a:focus {
 	text-decoration: underline;
 }
 
+h1 {
+	color: #888;
+}
+
 h3 {
 	font-weight: 100;
 }
@@ -203,6 +207,19 @@ h3 {
 	color: darkgrey;
 	border: 2px dashed rgba(0,0,0,.3);
 	margin: 10px;
+}
+
+#num-crops {
+	font-size: 30px;
+	font-weight: 300;
+	color: #444;
+	display: block;
+	margin-bottom: 10px;
+}
+
+#crops-counter {
+	text-align: center;
+	color: #8f8f8f;
 }
 
 @media (min-width: 48em) {
