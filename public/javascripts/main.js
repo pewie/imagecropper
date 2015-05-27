@@ -41,6 +41,12 @@ $(document).ready(function() {
 				.success(function(res) {
 					// Image processing finished, download image.
 					if (res.filename != 'undefined') {
+						if ( ! res.alreadyCropped) {
+							var numCrops = parseInt($('#num-crops').text());
+							numCrops++;
+							$('#num-crops').html(numCrops);
+						}
+
 						console.log('Downloading image');
 						window.location = '/download/' + res.filename;
 

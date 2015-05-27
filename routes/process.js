@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var url = require('url');
 var gm = require('gm').subClass({imageMagick: true});
+var cropCounter = require('../modules/crop-counter');
 
 router.get('/', function(req, res, next) {
 
@@ -11,8 +12,13 @@ router.get('/', function(req, res, next) {
     var query = url_parts.query;
     var path = __dirname + '/../tmp/' + query.filename;
 	var croppath = __dirname + '/../tmp/' + 'cropped-' + query.filename;
+	var ip = req.connection.remoteAddress;
 
     console.log(query);
+
+	// Log in database.
+	var alreadyCropped = cropCounter.log(query.filename, ip);
+	console.log('alreadyCropped: ' + alreadyCropped);
 
 	// Process the image according to crop query.
 	gm(path)
@@ -28,7 +34,10 @@ router.get('/', function(req, res, next) {
 			}
 
 			console.log('/upload: Cropping done');
-			res.json({filename: 'cropped-' + query.filename});
+			res.json({
+				filename: 'cropped-' + query.filename,
+				alreadyCropped: alreadyCropped
+			});
 		});
 
 });
