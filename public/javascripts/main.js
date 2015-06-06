@@ -41,13 +41,11 @@ $(document).ready(function() {
 				.success(function(res) {
 					// Image processing finished, download image.
 					if (res.filename != 'undefined') {
-						// Not posibble to install sqlite3 module on BTH server.
-						
-						// if ( ! res.alreadyCropped) {
-						// 	var numCrops = parseInt($('#num-crops').text());
-						// 	numCrops++;
-						// 	$('#num-crops').html(numCrops);
-						// }
+						if ( ! res.alreadyCropped) {
+							var numCrops = parseInt($('#num-crops').text());
+							numCrops++;
+							$('#num-crops').html(numCrops);
+						}
 
 						console.log('Downloading image');
 						window.location = '/download/' + res.filename;

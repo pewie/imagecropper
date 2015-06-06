@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var url = require('url');
 var gm = require('gm').subClass({imageMagick: true});
-// var cropCounter = require('../modules/crop-counter'); // Not posibble to install sqlite3 module on BTH server.
+var cropCounter = require('../modules/crop-counter');
 
 router.get('/', function(req, res, next) {
 
@@ -16,11 +16,9 @@ router.get('/', function(req, res, next) {
 
     console.log(query);
 
-    // Not posibble to install sqlite3 module on BTH server.
-
 	// Log in database.
-	// var alreadyCropped = cropCounter.log(query.filename, ip);
-	// console.log('alreadyCropped: ' + alreadyCropped);
+	var alreadyCropped = cropCounter.log(query.filename, ip);
+	console.log('alreadyCropped: ' + alreadyCropped);
 
 	// Process the image according to crop query.
 	gm(path)
@@ -38,7 +36,7 @@ router.get('/', function(req, res, next) {
 			console.log('/upload: Cropping done');
 			res.json({
 				filename: 'cropped-' + query.filename,
-				// alreadyCropped: alreadyCropped // Not posibble to install sqlite3 module on BTH server.
+				alreadyCropped: alreadyCropped
 			});
 		});
 
