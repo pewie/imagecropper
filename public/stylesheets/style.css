@@ -44,6 +44,10 @@ p {
 	padding: 0;
 }
 
+#privacy-policy {
+	margin-left: 20px;
+}
+
 .header {
 	text-align: center;
 	top: auto;
