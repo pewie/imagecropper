@@ -14,22 +14,27 @@ exports.log = function(image, ip) {
 		return alreadyCropped;
 	}
 
-	initialize_db();
+	initialize_db(function(err) {
+		if (err) {
+			console.log('Could not initialize databse');
+		} else {
+			var db = new sqlite3.Database(sqldb);
 
-	var db = new sqlite3.Database(sqldb);
+			var stmt = db.prepare('INSERT INTO crop (date, image, ip) VALUES (?, ?, ?)');
 
-	var stmt = db.prepare('INSERT INTO crop (date, image, ip) VALUES (?, ?, ?)');
+			stmt.run(moment().format('YYYY-MM-DD HH:mm:ss'), image, ip);
+			stmt.finalize();
 
-	stmt.run(moment().format('YYYY-MM-DD HH:mm:ss'), image, ip);
-	stmt.finalize();
+			console.log('Crop from ip ' + ip + ' logged in database');
 
-	console.log('Crop from ip ' + ip + ' logged in database');
+			db.close();
 
-	db.close();
+			console.log('alreadyCropped in cropcountrer: ' + alreadyCropped);
 
-	console.log('alreadyCropped in cropcountrer: ' + alreadyCropped);
+		}
+		return alreadyCropped;
+	});
 
-	return alreadyCropped;
 };
 
 exports.getCrops = function(callback) {
