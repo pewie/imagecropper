@@ -7,7 +7,6 @@ var sqldb = path.join(__dirname, '../', 'db.sql');
 
 exports.log = function(image, ip) {
 	var imgpath = path.join(__dirname, '../', 'tmp', 'cropped-' + image);
-	var exists = fs.existsSync(sqldb);
 	var alreadyCropped = fs.existsSync(imgpath);
 
 	if (alreadyCropped) {
@@ -15,10 +14,7 @@ exports.log = function(image, ip) {
 		return alreadyCropped;
 	}
 
-	if ( ! exists) {
-		console.log('Creating DB file');
-		db.run('CREATE TABLE crop (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, image TEXT, ip TEXT NULL)');
-	}
+	initialize_db();
 
 	var db = new sqlite3.Database(sqldb);
 
@@ -37,19 +33,42 @@ exports.log = function(image, ip) {
 };
 
 exports.getCrops = function(callback) {
-	var db = new sqlite3.Database(sqldb);
+	initialize_db(function(err) {
 
-	db.get('SELECT COUNT(id) AS crops FROM crop LIMIT 1', function(err, row) {
 		if (err) {
-			console.log('Could not load from crop');
-			callback(err);
-			db.close();
+			callback(null, {'crops': 0});
+		} else {		
+			var db = new sqlite3.Database(sqldb);
 
-			return;
-		}
+			db.get('SELECT COUNT(id) AS crops FROM crop LIMIT 1', function(err, row) {
+				if (err) {
+					console.log('Could not load from crop');
+					callback(err);
+					db.close();
 
-		console.log('crops in module: ' + row.crops);
-		callback(null, {'crops': row.crops});
-		db.close();
+					return;
+				}
+
+				console.log('crops in module: ' + row.crops);
+				callback(null, {'crops': row.crops});
+				db.close();
+			});
+		}	
 	});
+
 };
+
+
+var initialize_db = function(callback) {
+	var db_exists = fs.existsSync(sqldb);
+
+	if ( ! db_exists) {
+		console.log('Creating DB file');
+
+		var db = new sqlite3.Database(sqldb);
+		db.run('CREATE TABLE crop (id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, image TEXT, ip TEXT NULL)', [], callback);
+		return;
+	}
+
+	callback(null);
+}
